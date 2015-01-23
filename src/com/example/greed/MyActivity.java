@@ -16,6 +16,7 @@ public class MyActivity extends Activity {
     private int totalScore = 0;
     private int turnScore = 0;
     private int round = 0;
+    private boolean firstThrow = true;
     private boolean throwAll = false;
     /**
      * Called when the activity is first created.
@@ -55,14 +56,14 @@ public class MyActivity extends Activity {
         Button saveButton = (Button) findViewById(R.id.save_button);
         int nrOfLocked = 0;
 
-        if(round == 0 && turnScore < 300) {
+        if(firstThrow && turnScore < 300) {
             for(Die die : dice) {
                 die.setWhiteDieImage(die.getDieValue());
             }
             turnScore = 0;
-            round = 0;
+            round = round + 1;
             saveButton.setClickable(false);
-        } else if(round == 0 && turnScore >= 300){
+        } else if(firstThrow && turnScore >= 300){
             for(Die die : dice) {
                 if(die.isLocked()) {
                     die.setGreyDieImage(die.getDieValue());
@@ -71,9 +72,9 @@ public class MyActivity extends Activity {
                     die.setWhiteDieImage(die.getDieValue());
                 }
             }
-            round = round + 1;
+            firstThrow = false;
             saveButton.setClickable(true);
-        } else if(round != 0 && turnScore > 0) {
+        } else if(!firstThrow && turnScore > 0) {
             for(Die die : dice) {
                 if(die.isLocked()) {
                     die.setGreyDieImage(die.getDieValue());
@@ -82,27 +83,35 @@ public class MyActivity extends Activity {
                     die.setWhiteDieImage(die.getDieValue());
                 }
             }
-            round = round + 1;
             saveButton.setClickable(true);
-        } else if(round != 0 && turnScore == 0) {
+        } else if(!firstThrow && turnScore == 0) {
             for(Die die : dice) {
                 die.setWhiteDieImage(die.getDieValue());
             }
+            firstThrow = true;
             turnScore = 0;
-            round = 0;
+            round = round + 1;
             saveButton.setClickable(false);
         }
         if(nrOfLocked == 6) {
             throwAll = true;
         }
+        TextView turnScore = (TextView) findViewById(R.id.textView2);
+        turnScore.setText(getResources().getString(R.string.turn_score) + turnScore);
     }
 
     public void save(View view) {
         totalScore = totalScore + turnScore;
+        round = round + 1;
+        turnScore = 0;
+        firstThrow = true;
+        for(Die die : dice) {
+            die.setUnLocked();
+            die.setWhiteDieImage(die.getDieValue());
+        }
         TextView totalScoreView = (TextView) findViewById(R.id.textView);
         totalScoreView.setText(getResources().getString(R.string.total_score) + totalScore);
         view.setClickable(false);
-        round = 0;
     }
 
 

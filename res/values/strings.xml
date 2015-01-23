@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MyActivity</string>
-    <string name="total_score">Score: </string>
+    <string name="total_score">Total score: </string>
+    <string name="turn_score">Turn score: </string>
 </resources>
