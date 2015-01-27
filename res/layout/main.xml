@@ -8,22 +8,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView"
+            android:id="@+id/total_score"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView2"
-            android:layout_below="@+id/textView"
+            android:id="@+id/turn_score"
+            android:layout_below="@+id/total_score"
             android:layout_alignParentStart="true"/>
 
         <com.example.greed.Die
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/die_1"
-                android:layout_below="@id/textView2"
+                android:onClick="onButtonClick"
+                android:layout_below="@id/turn_score"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="120dp"
                 android:layout_alignParentLeft="true"
@@ -33,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/die_2"
+                android:onClick="onButtonClick"
                 android:layout_marginLeft="20dp"
                 android:adjustViewBounds="true"
                 android:layout_alignTop="@+id/die_1"
@@ -42,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/die_3"
+                android:onClick="onButtonClick"
                 android:layout_marginRight="20dp"
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="20dp"
@@ -52,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/die_4"
+                android:onClick="onButtonClick"
                 android:layout_below="@id/die_1"
                 android:layout_marginLeft="20dp"
                 android:layout_alignParentLeft="true"
@@ -62,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/die_5"
+                android:onClick="onButtonClick"
                 android:layout_marginLeft="20dp"
                 android:adjustViewBounds="true"
                 android:layout_alignTop="@+id/die_4"
@@ -71,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/die_6"
+                android:onClick="onButtonClick"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:adjustViewBounds="true"
@@ -118,7 +124,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/textView3" android:layout_alignParentTop="true" android:layout_alignParentEnd="true"/>
+                android:id="@+id/current_round"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selected"
+                android:id="@+id/selected_score"
+                android:layout_below="@+id/die_5"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Potential"
+                android:id="@+id/potential_score"
+                android:layout_above="@+id/die_2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="40dp"/>
 
 
 </RelativeLayout>

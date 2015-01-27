@@ -3,4 +3,7 @@
     <string name="app_name">MyActivity</string>
     <string name="total_score">Total score: </string>
     <string name="turn_score">Turn score: </string>
+    <string name="current_round">Current round: </string>
+    <string name="selected_score">Selected score: </string>
+    <string name="potential_score">Potential score on this throw: </string>
 </resources>

@@ -15,6 +15,8 @@ public class Die extends ImageButton{
 
     private int dieValue;
     private boolean isLocked = false;
+    private boolean isSelected = false;
+    private boolean isSelectable = false;
 
     public Die(Context context) {
         super(context);
@@ -83,13 +85,10 @@ public class Die extends ImageButton{
         return isLocked;
     }
 
-    public void setLocked() {
-        isLocked = true;
+    public void setLocked(boolean isLocked) {
+        this.isLocked = isLocked;
     }
 
-    public void setUnLocked() {
-        isLocked = false;
-    }
 
     public int getDieValue() {
         return dieValue;
@@ -98,5 +97,22 @@ public class Die extends ImageButton{
     public void throwDie() {
         Random diceRoller = new Random();
         dieValue = diceRoller.nextInt(6) + 1;
+        setWhiteDieImage(dieValue);
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
+    public boolean isSelectable() {
+        return isSelectable;
+    }
+
+    public void setSelectable(boolean isSelectable) {
+        this.isSelectable = isSelectable;
     }
 }

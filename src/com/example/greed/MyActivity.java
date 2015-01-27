@@ -11,10 +11,15 @@ import java.util.HashMap;
 
 public class MyActivity extends Activity {
 
+    private ScoreCalculator calculator;
     private ArrayList<Die> dice = new ArrayList<Die>();
     private HashMap<Integer, Integer> diceMapper = new HashMap<Integer, Integer>();
-    private int totalScore = 0;
-    private int turnScore = 0;
+    private TextView totalScoreView;
+    private TextView turnScoreView;
+    private TextView currentRoundView;
+    private TextView selectedScoreView;
+    private TextView potentialScoreView;
+    private Button saveButton;
     private int round = 0;
     private boolean firstThrow = true;
     private boolean throwAll = false;
@@ -25,138 +30,138 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        calculator = new ScoreCalculator();
 
-        dice.add((Die) findViewById(R.id.die_1));
-        dice.add((Die) findViewById(R.id.die_2));
-        dice.add((Die) findViewById(R.id.die_3));
-        dice.add((Die) findViewById(R.id.die_4));
-        dice.add((Die) findViewById(R.id.die_5));
-        dice.add((Die) findViewById(R.id.die_6));
+        totalScoreView = (TextView) findViewById(R.id.total_score);
+        turnScoreView = (TextView) findViewById(R.id.turn_score);
+        currentRoundView = (TextView) findViewById(R.id.current_round);
+        selectedScoreView = (TextView) findViewById(R.id.selected_score);
+        potentialScoreView = (TextView) findViewById(R.id.potential_score);
+        saveButton = (Button) findViewById(R.id.save_button);
+
+        for(int i = 1; i < 7; i++) {
+            String idForButton = "die_" + i;
+            int identifier = getResources().getIdentifier(idForButton, "id", "com.example.greed");
+            System.out.println("Identifier: " + identifier);
+            Die die = (Die) findViewById(identifier);
+            dice.add(die);
+        }
+
+        totalScoreView.setText(getResources().getString(R.string.total_score) + calculator.getTotalScore());
+        turnScoreView.setText(getResources().getString(R.string.turn_score) + calculator.getTurnScore());
+        currentRoundView.setText(getResources().getString(R.string.current_round) + round);
+        selectedScoreView.setText(getResources().getString(R.string.selected_score) + 0);
+        potentialScoreView.setText(getResources().getString(R.string.potential_score) + 0);
     }
 
 
     public void throwDice(View view) {
+        calculator.setTurnScore(calculator.getTurnScore() + calculator.getSelectedScore());
+        turnScoreView.setText(getResources().getString(R.string.turn_score) + calculator.getTurnScore());
+        currentRoundView.setText(getResources().getString(R.string.current_round) + round);
+        calculator.resetScoreCalculator();
+        System.out.println("1111111111");
         diceMapper.clear();
         for(Die die : dice) {
-            if(die.isLocked() == false) {
+            if(die.isLocked() == false && die.isSelected() == false) {
                 die.throwDie();
             } else if(throwAll == true) {
-                die.setUnLocked();
+                die.setLocked(false);
+                die.setSelectable(false);
                 die.throwDie();
+            } else {
+                die.setLocked(true);
+                die.setSelected(false);
+                die.setSelectable(false);
+                die.setRedDieImage(die.getDieValue());
             }
             int temp = 0;
             if(diceMapper.get(die.getDieValue()) != null) {
                 temp = diceMapper.get(die.getDieValue());
             }
-            diceMapper.put(die.getDieValue(), temp + 1);
-        }
-        throwAll = false;
-        scoreCalculator();
-
-        Button saveButton = (Button) findViewById(R.id.save_button);
-        int nrOfLocked = 0;
-
-        if(firstThrow && turnScore < 300) {
-            for(Die die : dice) {
-                die.setWhiteDieImage(die.getDieValue());
+            if(die.isLocked() == false) {
+                diceMapper.put(die.getDieValue(), temp + 1);
             }
-            turnScore = 0;
+        }
+        System.out.println("222222222");
+        throwAll = false;
+        HashMap<Integer, Integer> selectableDice = calculator.scoreCalculator(diceMapper);
+
+        System.out.println("3333333333");
+        if(firstThrow && calculator.getPotentialThrowScore() < 300) {
+            firstThrow = true;
+            calculator.setTurnScore(0);
             round = round + 1;
             saveButton.setClickable(false);
-        } else if(firstThrow && turnScore >= 300){
-            for(Die die : dice) {
-                if(die.isLocked()) {
-                    die.setGreyDieImage(die.getDieValue());
-                    nrOfLocked = nrOfLocked + 1;
-                } else {
-                    die.setWhiteDieImage(die.getDieValue());
-                }
-            }
+        } else if(firstThrow && calculator.getPotentialThrowScore() >= 300){
             firstThrow = false;
             saveButton.setClickable(true);
-        } else if(!firstThrow && turnScore > 0) {
-            for(Die die : dice) {
-                if(die.isLocked()) {
-                    die.setGreyDieImage(die.getDieValue());
-                    nrOfLocked = nrOfLocked + 1;
-                } else {
-                    die.setWhiteDieImage(die.getDieValue());
-                }
-            }
+            diceSelecter(selectableDice);
+        } else if(!firstThrow && calculator.getPotentialThrowScore() > 0) {
             saveButton.setClickable(true);
-        } else if(!firstThrow && turnScore == 0) {
-            for(Die die : dice) {
-                die.setWhiteDieImage(die.getDieValue());
-            }
+            diceSelecter(selectableDice);
+        } else if(!firstThrow && calculator.getPotentialThrowScore() == 0) {
             firstThrow = true;
-            turnScore = 0;
+            calculator.setTurnScore(0);
             round = round + 1;
             saveButton.setClickable(false);
         }
-        if(nrOfLocked == 6) {
-            throwAll = true;
+        System.out.println("4444444444");
+        potentialScoreView.setText(getResources().getString(R.string.potential_score) + calculator.getPotentialThrowScore());
+    }
+
+    public void onButtonClick(View view) {
+        Die die = (Die)view;
+
+        if(die.isLocked() == false) {
+            if(die.isSelectable()) {
+                if(die.isSelected()) {
+                    die.setGreyDieImage(die.getDieValue());
+                    die.setSelected(false);
+                    calculator.calculateScoreForDeSelectingDiceValue(die.getDieValue());
+                    selectedScoreView.setText(getResources().getString(R.string.selected_score) + calculator.getSelectedScore());
+                } else {
+                    die.setRedDieImage(die.getDieValue());
+                    die.setSelected(true);
+                    calculator.calculateScoreForSelectingDiceValue(die.getDieValue());
+                    selectedScoreView.setText(getResources().getString(R.string.selected_score) + calculator.getSelectedScore());
+                }
+            }
         }
-        TextView turnScore = (TextView) findViewById(R.id.textView2);
-        turnScore.setText(getResources().getString(R.string.turn_score) + turnScore);
     }
 
     public void save(View view) {
-        totalScore = totalScore + turnScore;
+        calculator.setTurnScore(calculator.getTurnScore() + calculator.getSelectedScore());
+        calculator.setTotalScore(calculator.getTotalScore() + calculator.getTurnScore());
         round = round + 1;
-        turnScore = 0;
+        calculator.setTurnScore(0);
+        calculator.resetScoreCalculator();
         firstThrow = true;
+        throwAll = false;
         for(Die die : dice) {
-            die.setUnLocked();
+            die.setLocked(false);
+            die.setSelected(false);
+            die.setSelectable(false);
             die.setWhiteDieImage(die.getDieValue());
         }
-        TextView totalScoreView = (TextView) findViewById(R.id.textView);
-        totalScoreView.setText(getResources().getString(R.string.total_score) + totalScore);
+        totalScoreView.setText(getResources().getString(R.string.total_score) + calculator.getTotalScore());
+        turnScoreView.setText(getResources().getString(R.string.turn_score) + calculator.getTurnScore());
         view.setClickable(false);
     }
 
 
-    protected void scoreCalculator() {
-        for(int i = 1; i < 7; i++) {
-            if(diceMapper.get(i) != null) {
-                if(diceMapper.get(i) >= 3) {
-                    if(i == 1) {
-                        turnScore = turnScore + 1000;
-                        turnScore = turnScore + ((diceMapper.get(i) - 3)*100);
-                        diceLocker(i, diceMapper.get(i));
-                    } else if(i == 5) {
-                        turnScore = turnScore + (i*100);
-                        turnScore = turnScore + ((diceMapper.get(i) - 3)*50);
-                        diceLocker(i, diceMapper.get(i));
-                    }  else {
-                        turnScore = turnScore + (i*100);
-                        diceLocker(i, 3);
+    protected void diceSelecter(HashMap<Integer, Integer> selectableDice) {
+        for(HashMap.Entry<Integer, Integer> entry : selectableDice.entrySet()) {
+            int diceValue = entry.getKey();
+            int numberOfDice = entry.getValue();
+            int diceSet = 0;
+            for(Die die : dice) {
+                if(die.getDieValue() == diceValue && die.isLocked() == false) {
+                    if(diceSet < numberOfDice) {
+                        die.setSelectable(true);
+                        diceSet = diceSet + 1;
+                        die.setGreyDieImage(die.getDieValue());
                     }
-                } else {
-                    if(i == 1) {
-                        turnScore = turnScore + (diceMapper.get(i)*100);
-                        diceLocker(i, diceMapper.get(i));
-                    } else if(i == 5) {
-                        turnScore = turnScore + (diceMapper.get(i)*50);
-                        diceLocker(i, diceMapper.get(i));
-                    }
-                }
-                if(diceMapper.size() == 6) {
-                    diceLocker(i, 1);
-                }
-            }
-        }
-        if(diceMapper.size() == 6) {
-            turnScore = turnScore + 1000;
-        }
-    }
-
-    protected void diceLocker(int diceValue, int numberOfDice) {
-        int diceSet = 0;
-        for(Die die : dice) {
-            if(die.getDieValue() == diceValue && die.isLocked() == false) {
-                if(diceSet < numberOfDice) {
-                    die.setLocked();
-                    diceSet = diceSet + 1;
                 }
             }
         }
