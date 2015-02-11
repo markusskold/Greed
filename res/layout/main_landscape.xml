@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+        >
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/total_score"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/turn_score"
+            android:layout_below="@+id/total_score"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+    <com.example.greed.Die
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/die_1"
+            android:onClick="onButtonClick"
+            android:layout_below="@id/turn_score"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentLeft="true"
+            android:adjustViewBounds="true"/>
+
+    <com.example.greed.Die
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/die_2"
+            android:onClick="onButtonClick"
+            android:layout_marginLeft="20dp"
+            android:adjustViewBounds="true"
+            android:layout_alignTop="@+id/die_1"
+            android:layout_centerHorizontal="true"/>
+
+    <com.example.greed.Die
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/die_3"
+            android:onClick="onButtonClick"
+            android:layout_marginRight="60dp"
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="20dp"
+            android:layout_alignTop="@+id/die_2"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"/>
+
+    <com.example.greed.Die
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/die_4"
+            android:onClick="onButtonClick"
+            android:layout_below="@id/die_1"
+            android:layout_marginLeft="60dp"
+            android:layout_alignParentLeft="true"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="10dp"/>
+
+    <com.example.greed.Die
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/die_5"
+            android:onClick="onButtonClick"
+            android:layout_marginLeft="20dp"
+            android:adjustViewBounds="true"
+            android:layout_alignTop="@+id/die_4"
+            android:layout_centerHorizontal="true"/>
+
+    <com.example.greed.Die
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/die_6"
+            android:onClick="onButtonClick"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="60dp"
+            android:adjustViewBounds="true"
+            android:layout_alignTop="@+id/die_5"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:id="@+id/save_button"
+                android:onClick="save"
+                android:layout_marginLeft="60dp"
+                android:adjustViewBounds="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="10dp"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Throw"
+                android:id="@+id/throw_button"
+                android:onClick="throwDice"
+                android:adjustViewBounds="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/current_round"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selected"
+            android:id="@+id/selected_score"
+            android:layout_below="@+id/die_5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Potential"
+            android:id="@+id/potential_score"
+            android:layout_above="@+id/die_2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+
+</RelativeLayout>

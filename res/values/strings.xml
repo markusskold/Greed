@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyActivity</string>
-    <string name="total_score">Total score: </string>
-    <string name="turn_score">Turn score: </string>
-    <string name="current_round">Current round: </string>
-    <string name="selected_score">Selected score: </string>
-    <string name="potential_score">Potential score on this throw: </string>
+    <string name="app_name">Greed</string>
+    <string name="total_score">Total score: %1$d</string>
+    <string name="turn_score">Turn score: %1$d</string>
+    <string name="current_round">Current round: %1$d</string>
+    <string name="selected_score">Selected score: %1$d</string>
+    <string name="potential_score">Potential score on this throw: %1$d</string>
+    <string name="win_1">Congratulations you succeeded!</string>
+    <string name="win_2">You got %1$s points after %2$d %3$s</string>
+    <string name="try_again">Try Again</string>
+    <plurals name="numberOfRounds">
+        <item quantity="one"> round.</item>
+        <item quantity="other"> rounds.</item>
+    </plurals>
 </resources>
