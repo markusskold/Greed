@@ -119,6 +119,16 @@ public class ScoreCalculator {
             } else {
                 selectedScore += value*100;
             }
+        } else if(thisThrowScore.get(value) == 6) {
+            if(value == 1) {
+                selectedScore = selectedScore - (2*100);
+                selectedScore += 1000;
+            } else if(value == 5) {
+                selectedScore = selectedScore - (2*50);
+                selectedScore += value*100;
+            } else {
+                selectedScore += value*100;
+            }
         } else {
             if(value == 1) {
                 selectedScore += 100;
@@ -148,6 +158,16 @@ public class ScoreCalculator {
                 selectedScore = 150;
             }
         } else if(thisThrowScore.get(value) != null && thisThrowScore.get(value) == 2) {
+            if(value == 1) {
+                selectedScore += (2*100);
+                selectedScore = selectedScore - 1000;
+            } else if(value == 5) {
+                selectedScore += (2*50);
+                selectedScore = selectedScore - value*100;
+            } else {
+                selectedScore = selectedScore - value*100;
+            }
+        } else if(thisThrowScore.get(value) != null && thisThrowScore.get(value) == 5) {
             if(value == 1) {
                 selectedScore += (2*100);
                 selectedScore = selectedScore - 1000;
